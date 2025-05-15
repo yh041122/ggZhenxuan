@@ -1,9 +1,7 @@
 <script setup lang="ts">
-const a = '123'
-
-console.log(a)
+console.log(import.meta.env)
 </script>
 <template>
-  <div>123</div>
+  <div></div>
 </template>
 <style scoped lang="scss"></style>

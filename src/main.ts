@@ -8,5 +8,6 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-
+// svg
+import 'virtual:svg-icons-register'
 app.mount('#app')
