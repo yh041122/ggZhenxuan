@@ -3,7 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
-// elem
+// element-plus按需引入
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
@@ -45,11 +45,11 @@ export default defineConfig(({ command }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
-    // scss全局变量配置
+    // scss全局变量配置 可以使用variable.scss中的scss变量
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@import "@/styles/variable.scss";`,
+          additionalData: `@use "@/styles/variable.scss";`,
         },
       },
     },

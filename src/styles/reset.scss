@@ -89,10 +89,10 @@ textarea {
   font-size: inherit;
 }
 
-button,
-html [type="button"],
-[type="reset"],
-[type="submit"] {
+button:not(.el-button),
+html [type="button"]:not(.el-button),
+[type="reset"]:not(.el-button),
+[type="submit"]:not(.el-button) {
   padding: 0;
   border: 0;
   color: inherit;
@@ -108,7 +108,7 @@ input::-moz-focus-inner {
   padding: 0;
 }
 
-input {
+input:not(.el-input__inner) {
   padding: 0;
   line-height: normal;
 
@@ -147,14 +147,14 @@ input {
   }
 }
 
-textarea {
+textarea:not(.el-textarea__inner) {
   overflow: auto;
   resize: none;
   -webkit-appearance: none;
   appearance: none;
 }
 
-select {
+select:not(.el-select) {
   -webkit-appearance: none;
   appearance: none;
   background-color: #fff;
