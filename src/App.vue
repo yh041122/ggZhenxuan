@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { RouterView } from 'vue-router'
 import { reqLogin } from '@/api/user'
 onMounted(async () => {
   const res = await reqLogin({ username: 'admin', password: '111111' })
@@ -7,6 +8,8 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div>根组件</div>
+  <div>
+    <RouterView />
+  </div>
 </template>
 <style scoped lang="scss"></style>

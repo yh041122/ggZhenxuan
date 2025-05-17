@@ -7,6 +7,7 @@ import router from './router'
 const app = createApp(App)
 
 app.use(createPinia())
+// 注册路由
 app.use(router)
 // svg
 import 'virtual:svg-icons-register'

@@ -1,7 +1,11 @@
 <script setup lang="ts">
-console.log(import.meta.env)
+defineOptions({
+  name: 'loginIndex',
+})
 </script>
 <template>
-  <div></div>
+  <div>
+    <h1>一级路由-登录</h1>
+  </div>
 </template>
 <style scoped lang="scss"></style>
