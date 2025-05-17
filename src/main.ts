@@ -13,6 +13,17 @@ import 'virtual:svg-icons-register'
 // 注册全局组件
 // import SvgIcon from '@/components/SvgIcon/index.vue'
 //全局组件插件
-import globleComponent from '@/components/index.ts'
-app.use(globleComponent)
+import globalComponent from '@/components/index.ts'
+app.use(globalComponent)
+// 国际化element-plus
+import ElementPlus from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+
+app.use(ElementPlus, {
+  // 中文
+  locale: zhCn,
+})
+// 引入全局样式
+import '@/styles/index.scss'
+// 将应用挂载到挂载点
 app.mount('#app')

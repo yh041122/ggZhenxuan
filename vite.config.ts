@@ -34,4 +34,12 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  // scss全局变量配置
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/styles/variable.scss";`,
+      },
+    },
+  },
 })

@@ -1,11 +1,15 @@
-<script setup lang="ts">
-import { RouterView } from 'vue-router'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <page-nation></page-nation>
-  <svg-icon name="timer" color="red"></svg-icon>
-  <RouterView />
+  <div>
+    <h1>测试</h1>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+div {
+  h1 {
+    color: $color;
+  }
+}
+</style>
