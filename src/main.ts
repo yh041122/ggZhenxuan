@@ -25,5 +25,18 @@ app.use(ElementPlus, {
 })
 // 引入全局样式
 import '@/styles/index.scss'
+
+// 测试代码 测试假的接口能否使用
+import axios from 'axios'
+// 登录接口
+axios({
+  url: '/api/user/login',
+  method: 'post',
+  data: {
+    username: 'admin',
+    password: '11w1111',
+  },
+})
+
 // 将应用挂载到挂载点
 app.mount('#app')
