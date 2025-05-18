@@ -1,7 +1,7 @@
 // 统一管理用户相关的接口
 import request from '@/utils/request'
 // 类型
-import type { LoginRequestParams, LoginSucResponse, UserInfoResponseData } from './type'
+import type { LoginRequestParams, LoginResponse, UserInfoResponseData } from './type'
 // 统一管理接口
 enum API {
   LOGIN_URL = '/user/login', // 登录接口
@@ -11,6 +11,6 @@ enum API {
 // 登录接口
 export const reqLogin = (data: LoginRequestParams) =>
   // request.post<T, U>：T代表请求参数的类型，U代表响应数据的类型
-  request.post<LoginRequestParams, LoginSucResponse>(API.LOGIN_URL, data)
+  request.post<LoginRequestParams, LoginResponse>(API.LOGIN_URL, data)
 // 获取用户信息
 export const reqUserInfo = () => request.get<UserInfoResponseData>(API.USERINFO_URL)

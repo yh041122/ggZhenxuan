@@ -5,19 +5,13 @@ export interface LoginRequestParams {
   password: string
 }
 // reqLogin登录接口 resonse类型
-interface LoginSucResponseData {
-  token: string
+interface LoginResponseData {
+  token?: string
+  message?: string
 }
-interface LoginFaiResponseData {
-  message: string
-}
-export interface LoginSucResponse {
+export interface LoginResponse {
   code: number
-  data: LoginSucResponseData //返回的是token字符串
-}
-export interface LoginFaiResponse {
-  code: number
-  data: LoginFaiResponseData //返回的是token字符串
+  data: LoginResponseData //返回的是token字符串
 }
 // 用户信息
 // 用户信息的数据类型
