@@ -4,10 +4,45 @@ defineOptions({
 })
 import { ref } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
+// 用户小仓库
+import { useUserStore } from '@/stores/modules/user.ts'
+const userStore = useUserStore()
+// 路由
+import { useRouter } from 'vue-router'
+const router = useRouter()
+// element-plus
+import { ElNotification } from 'element-plus'
+// 表单数据
 const formData = ref({
   username: 'admin',
   password: '111111',
 })
+// 按钮加载效果
+const loading = ref(false)
+// 登录
+const login = async () => {
+  // 按钮加载效果
+  loading.value = true
+  // 登录逻辑
+  try {
+    await userStore.userLogin(formData.value)
+    loading.value = false
+    router.push('/')
+    ElNotification({
+      title: '登录成功',
+      message: '欢迎回来',
+      type: 'success',
+    })
+  } catch (error) {
+    // 登录失败 加载效果小时
+    loading.value = false
+    ElNotification({
+      message: (error as Error).message,
+      type: 'error',
+    })
+    console.log(error)
+  }
+}
 </script>
 <template>
   <div class="login_container">
@@ -29,7 +64,9 @@ const formData = ref({
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button class="login_btn" type="primary">登录</el-button>
+            <el-button :loading="loading" class="login_btn" type="primary" @click="login">
+              登录
+            </el-button>
           </el-form-item>
         </el-form>
       </el-col>

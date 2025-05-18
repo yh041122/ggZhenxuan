@@ -1,15 +1,15 @@
-export const route = [
+export const routes = [
   // login登录页面
   {
     path: '/',
-    name: 'login',
-    component: () => import('@/views/login/index.vue'),
+    name: 'home',
+    component: () => import('@/views/home/index.vue'),
   },
   // home首页
   {
-    path: '/home',
-    name: 'home',
-    component: () => import('@/views/home/index.vue'),
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login/index.vue'),
   },
   // 404页面
   {

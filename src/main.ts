@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import pinia from '@/stores'
 
 import App from './App.vue'
 import router from './router'
 
 const app = createApp(App)
-
-app.use(createPinia())
+// 安装仓库
+app.use(pinia)
 // 注册路由
 app.use(router)
 // svg
@@ -18,6 +18,8 @@ import globalComponent from '@/components/index.ts'
 app.use(globalComponent)
 // 国际化element-plus
 import ElementPlus from 'element-plus'
+// 导入element-plus的样式
+import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 app.use(ElementPlus, {
