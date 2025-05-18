@@ -19,15 +19,41 @@ const formData = ref({
   username: 'admin',
   password: '111111',
 })
+// 自定义校验规则
+const validateUsername = (rule: any, value: any, callback: any) => {
+  // rule:校验规则对象
+  // value：表单元素的文本内容
+  // callback:一个函数，检验成果：callback()放行
+  // 检验失败：callback(错误信息)
+  // 正则校验 正则.test(值)
+  // if (/^\d{5,10}$/.test(value))
+  if (value.length > 4 && value.length < 10) {
+    callback()
+  } else {
+    callback(new Error('用户名长度在5-10个字符'))
+  }
+}
+const validatePassword = (rule: any, value: any, callback: any) => {
+  if (value.length > 5 && value.length < 12) {
+    callback()
+  } else {
+    callback(new Error('密码长度在6-12个字符'))
+  }
+}
 // 表单检验对象
 const rules = {
   username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'change' },
+    // { required: true, message: '请输入用户名', trigger: 'blur' },
+    // { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'change' },
+    // 正则校验
+    // {pattern:/^\d{5,10}$/}
+    // 自定义校验规则
+    { validator: validateUsername, trigger: 'change' },
   ],
   password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'change' },
+    // { required: true, message: '请输入密码', trigger: 'blur' },
+    // { min: 6, max: 12, message: '长度在 6 到 12 个字符', trigger: 'change' },
+    { validator: validatePassword, trigger: 'change' },
   ],
 }
 // 表单对象
