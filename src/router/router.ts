@@ -1,15 +1,15 @@
 export const routes = [
   // login登录页面
   {
-    path: '/',
-    name: 'home',
-    component: () => import('@/views/home/index.vue'),
-  },
-  // home首页
-  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/login/index.vue'),
+  },
+  // home首页
+  {
+    path: '/',
+    name: 'layout',
+    component: () => import('@/layout/index.vue'),
   },
   // 404页面
   {
@@ -17,6 +17,7 @@ export const routes = [
     name: '404',
     component: () => import('@/views/404/index.vue'),
   },
+  // 任意页面
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404',
