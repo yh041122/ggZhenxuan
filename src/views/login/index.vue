@@ -4,6 +4,8 @@ defineOptions({
 })
 import { ref } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
+// 获取当前时间段 早上 |上午 |中午|下午 |晚上
+import { getTime } from '@/utils/time.ts'
 // 用户小仓库
 import { useUserStore } from '@/stores/modules/user.ts'
 const userStore = useUserStore()
@@ -29,7 +31,7 @@ const login = async () => {
     loading.value = false
     router.push('/')
     ElNotification({
-      title: '登录成功',
+      title: `Hi,${getTime()}好~`,
       message: '欢迎回来',
       type: 'success',
     })
