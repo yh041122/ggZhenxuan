@@ -7,6 +7,7 @@ export const routes = [
     meta: {
       title: '登录',
       hidden: true,
+      icon: 'Promotion', //菜单栏左侧图标
     },
   },
   // home首页
@@ -17,6 +18,7 @@ export const routes = [
     meta: {
       title: 'layout',
       hidden: false,
+      icon: 'Avatar',
     },
     children: [
       {
@@ -26,15 +28,7 @@ export const routes = [
         meta: {
           title: '首页',
           hidden: false,
-        },
-      },
-      {
-        path: '/test',
-        name: 'home',
-        component: () => import('@/views/home/index.vue'),
-        meta: {
-          title: '测试',
-          hidden: true,
+          icon: 'HomeFilled',
         },
       },
     ],
@@ -47,6 +41,7 @@ export const routes = [
     meta: {
       title: '404',
       hidden: true,
+      icon: 'DocumentDelete',
     },
   },
   // 任意页面
@@ -57,6 +52,7 @@ export const routes = [
     meta: {
       title: '任意路由',
       hidden: true,
+      icon: 'DataLine',
     },
   },
 ]
