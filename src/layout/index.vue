@@ -2,10 +2,13 @@
 defineOptions({
   name: 'layoutIndex',
 })
+
 // logo组件
 import logoComponent from './logo/index.vue'
 // menu组件
 import menuComponent from './menu/index.vue'
+// main组件
+import Main from './main/index.vue'
 // 获取user的小仓库
 import { useUserStore } from '@/stores/modules/user'
 const userStore = useUserStore()
@@ -16,17 +19,12 @@ const userStore = useUserStore()
     <div class="layout_slider">
       <logoComponent />
       <el-scrollbar class="scrollbar">
-        <el-menu class="layout_menu" background-color="rgb(  0, 22, 42)" text-color="#fff">
-          <!-- <el-menu-item index="1">首页</el-menu-item>
-          <el-menu-item index="2">数据大屏</el-menu-item>
-          <el-sub-menu index="3">
-            <template #title>
-              <span>权限管理</span>
-            </template>
-            <el-menu-item index="3-1">用户管理</el-menu-item>
-            <el-menu-item index="3-2">角色管理</el-menu-item>
-            <el-menu-item index="3-3">菜单管理</el-menu-item>
-          </el-sub-menu> -->
+        <el-menu
+          class="layout_menu"
+          background-color="rgb(  0, 22, 42)"
+          text-color="#fff"
+          :unique-opened="true"
+        >
           <menuComponent :menuList="userStore.menuRoutes"></menuComponent>
         </el-menu>
       </el-scrollbar>
@@ -35,7 +33,7 @@ const userStore = useUserStore()
     <div class="layout_tabbar">456</div>
     <!-- 内容区域 -->
     <div class="layout_main">
-      <p style="height: 10000px; background-color: red">789</p>
+      <Main></Main>
     </div>
   </div>
 </template>

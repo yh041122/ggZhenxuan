@@ -2,17 +2,23 @@
 defineOptions({
   name: 'menuComponent',
 })
-import type { RouteRecordRaw } from 'vue-router'
+import { useRouter, type RouteRecordRaw } from 'vue-router'
 interface menuProps {
   menuList: RouteRecordRaw[]
 }
 defineProps<menuProps>()
+// 二级路由跳转
+const router = useRouter()
+const goRoute = (cv: any) => {
+  console.log(cv.index)
+  router.push({ path: cv.index })
+}
 </script>
 <template>
-  <template v-for="item in menuList">
+  <template v-for="item in menuList" :key="item.path">
     <!-- 没有子路由 -->
     <template v-if="!item.children">
-      <el-menu-item v-if="!item.meta!.hidden" :key="item.path">
+      <el-menu-item v-if="!item.meta!.hidden" :index="item.path" @click="goRoute">
         <template #title>
           <el-icon>
             <component :is="item.meta!.icon"></component>
@@ -23,7 +29,11 @@ defineProps<menuProps>()
     </template>
     <!-- 只有一个子路由 -->
     <template v-if="item.children && item.children.length === 1">
-      <el-menu-item v-if="!item.children[0].meta!.hidden" :key="item.children[0].path">
+      <el-menu-item
+        v-if="!item.children[0].meta!.hidden"
+        :index="item.children[0].path"
+        @click="goRoute"
+      >
         <template #title>
           <el-icon>
             <component :is="item.children[0].meta!.icon"></component>
@@ -34,7 +44,7 @@ defineProps<menuProps>()
     </template>
     <!-- 有多个子路由 -->
     <template v-if="item.children && item.children.length > 1">
-      <el-sub-menu v-if="!item.meta!.hidden" :key="item.path">
+      <el-sub-menu v-if="!item.meta!.hidden" :index="item.path">
         <template #title>
           <el-icon>
             <component :is="item.meta!.icon"></component>
