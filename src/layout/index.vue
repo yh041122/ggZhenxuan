@@ -4,12 +4,32 @@ defineOptions({
 })
 // logo组件
 import logoComponent from './logo/index.vue'
+// menu组件
+import menuComponent from './menu/index.vue'
+// 获取user的小仓库
+import { useUserStore } from '@/stores/modules/user'
+const userStore = useUserStore()
 </script>
 <template>
   <div class="layout_container">
     <!-- 左侧菜单-->
     <div class="layout_slider">
       <logoComponent />
+      <el-scrollbar class="scrollbar">
+        <el-menu class="layout_menu" background-color="rgb(  0, 22, 42)" text-color="#fff">
+          <!-- <el-menu-item index="1">首页</el-menu-item>
+          <el-menu-item index="2">数据大屏</el-menu-item>
+          <el-sub-menu index="3">
+            <template #title>
+              <span>权限管理</span>
+            </template>
+            <el-menu-item index="3-1">用户管理</el-menu-item>
+            <el-menu-item index="3-2">角色管理</el-menu-item>
+            <el-menu-item index="3-3">菜单管理</el-menu-item>
+          </el-sub-menu> -->
+          <menuComponent :menuList="userStore.menuRoutes"></menuComponent>
+        </el-menu>
+      </el-scrollbar>
     </div>
     <!-- 顶部导航-->
     <div class="layout_tabbar">456</div>
@@ -30,6 +50,13 @@ import logoComponent from './logo/index.vue'
     width: $base-menu-width;
     height: 100%;
     background-color: $base-menu-bgc;
+    .scrollbar {
+      width: 100%;
+      height: calc(100% - $base-menu-logo-height);
+      .layout_menu {
+        border-right: none;
+      }
+    }
   }
   // 顶部导航
   .layout_tabbar {

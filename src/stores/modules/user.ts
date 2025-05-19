@@ -7,7 +7,11 @@ import { reqLogin } from '@/api/user'
 import type { LoginRequestParams, LoginResponse } from '@/api/user/type.ts'
 // 获取token
 import { SET_TOKEN, GET_TOKEN } from '@/utils/token'
+// 路由常量
+import { routes } from '@/router/router'
 export const useUserStore = defineStore('User', () => {
+  // 路由常量
+  const menuRoutes = ref(routes)
   // token
   const token = ref(GET_TOKEN())
   // 用户登录的方法
@@ -32,6 +36,7 @@ export const useUserStore = defineStore('User', () => {
   }
   return {
     // state
+    menuRoutes,
     token,
     // action
     userLogin,
