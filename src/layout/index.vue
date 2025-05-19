@@ -2,11 +2,15 @@
 defineOptions({
   name: 'layoutIndex',
 })
+// logo组件
+import logoComponent from './logo/index.vue'
 </script>
 <template>
   <div class="layout_container">
     <!-- 左侧菜单-->
-    <div class="layout_slider">123</div>
+    <div class="layout_slider">
+      <logoComponent />
+    </div>
     <!-- 顶部导航-->
     <div class="layout_tabbar">456</div>
     <!-- 内容区域 -->
