@@ -2,16 +2,22 @@
 defineOptions({
   name: 'layoutIndex',
 })
-
+// route
+import { useRoute } from 'vue-router'
 // logo组件
 import logoComponent from './logo/index.vue'
 // menu组件
 import menuComponent from './menu/index.vue'
 // main组件
 import Main from './main/index.vue'
+// tabbar组件
+import Tabbar from './tabbar/index.vue'
 // 获取user的小仓库
 import { useUserStore } from '@/stores/modules/user'
 const userStore = useUserStore()
+// 默认激活 给menu添加 :default-active="$route.path" 在哪个二级路由刷新，左侧菜单栏对应保持展开
+// default-active 页面加载时默认激活菜单的index
+const $route = useRoute()
 </script>
 <template>
   <div class="layout_container">
@@ -24,13 +30,16 @@ const userStore = useUserStore()
           background-color="rgb(  0, 22, 42)"
           text-color="#fff"
           :unique-opened="true"
+          :default-active="$route.path"
         >
           <menuComponent :menuList="userStore.menuRoutes"></menuComponent>
         </el-menu>
       </el-scrollbar>
     </div>
     <!-- 顶部导航-->
-    <div class="layout_tabbar">456</div>
+    <div class="layout_tabbar">
+      <Tabbar />
+    </div>
     <!-- 内容区域 -->
     <div class="layout_main">
       <Main></Main>
@@ -42,7 +51,6 @@ const userStore = useUserStore()
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: red;
   // 左侧菜单
   .layout_slider {
     width: $base-menu-width;
@@ -63,7 +71,6 @@ const userStore = useUserStore()
     left: $base-menu-width;
     width: calc(100% - $base-menu-width);
     height: $base-tabbar-height;
-    background-color: cyan;
   }
   // 内容区域
   .layout_main {

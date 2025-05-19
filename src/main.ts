@@ -15,6 +15,9 @@ import 'virtual:svg-icons-register'
 // import SvgIcon from '@/components/SvgIcon/index.vue'
 //全局组件插件
 import globalComponent from '@/components/index.ts'
+// 调试：检查 globalComponent 的结构
+console.log('Global component structure:', Object.keys(globalComponent))
+
 app.use(globalComponent)
 // 国际化element-plus
 import ElementPlus from 'element-plus'
