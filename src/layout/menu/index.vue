@@ -18,7 +18,12 @@ const goRoute = (cv: any) => {
   <template v-for="item in menuList" :key="item.path">
     <!-- 没有子路由 -->
     <template v-if="!item.children">
-      <el-menu-item v-if="!item.meta!.hidden" :index="item.path" @click="goRoute">
+      <el-menu-item
+        v-if="!item.meta!.hidden"
+        :index="item.path"
+        @click="goRoute"
+        class="marginLeft"
+      >
         <el-icon>
           <component :is="item.meta!.icon"></component>
         </el-icon>
@@ -33,6 +38,7 @@ const goRoute = (cv: any) => {
         v-if="!item.children[0].meta!.hidden"
         :index="item.children[0].path"
         @click="goRoute"
+        class="marginLeft"
       >
         <el-icon>
           <component :is="item.children[0].meta!.icon"></component>
@@ -44,7 +50,7 @@ const goRoute = (cv: any) => {
     </template>
     <!-- 有多个子路由 -->
     <template v-if="item.children && item.children.length > 1">
-      <el-sub-menu v-if="!item.meta!.hidden" :index="item.path">
+      <el-sub-menu v-if="!item.meta!.hidden" :index="item.path" class="marginLeft">
         <template #title>
           <el-icon>
             <component :is="item.meta!.icon"></component>
@@ -57,4 +63,8 @@ const goRoute = (cv: any) => {
     </template>
   </template>
 </template>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.marginLeft {
+  margin-left: -3px;
+}
+</style>

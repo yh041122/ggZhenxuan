@@ -2,13 +2,30 @@
 defineOptions({
   name: 'mainIndex',
 })
+import { watch, ref, nextTick } from 'vue'
+// layoutSetting仓库
+import { useLayoutSettingStore } from '@/stores/modules/layoutSetting'
+const layoutSettingStore = useLayoutSettingStore()
+// 刷新组件
+const flag = ref(true)
+// 监听layoutSetting仓库中refsh变化
+watch(
+  () => layoutSettingStore.refsh,
+  () => {
+    //refsh被点击了(变化了) 就要刷新
+    flag.value = false
+    nextTick(() => {
+      flag.value = true
+    })
+  },
+)
 </script>
 <template>
   <!-- 二级路由 并添加过度 -->
   <router-view v-slot="{ Component }">
     <!-- vue 内置组件 -->
     <transition name="fade">
-      <component :is="Component" />
+      <component :is="Component" v-if="flag" />
     </transition>
   </router-view>
 </template>

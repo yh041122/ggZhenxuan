@@ -8,7 +8,7 @@ import setting from '@/setting'
 <template>
   <div class="logo" v-if="setting.logoHidden">
     <img :src="setting.logo" alt="" />
-    <p>{{ setting.title }}</p>
+    <p style="white-space: nowrap">{{ setting.title }}</p>
   </div>
 </template>
 <style scoped lang="scss">
@@ -18,7 +18,7 @@ import setting from '@/setting'
   color: white;
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
   img {
     width: 40px;
     height: 40px;

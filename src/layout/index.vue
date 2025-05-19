@@ -2,6 +2,10 @@
 defineOptions({
   name: 'layoutIndex',
 })
+import { watch, ref, nextTick } from 'vue'
+// layoutSetting仓库
+import { useLayoutSettingStore } from '@/stores/modules/layoutSetting'
+const layoutSettingStore = useLayoutSettingStore()
 // route
 import { useRoute } from 'vue-router'
 // logo组件
@@ -18,11 +22,24 @@ const userStore = useUserStore()
 // 默认激活 给menu添加 :default-active="$route.path" 在哪个二级路由刷新，左侧菜单栏对应保持展开
 // default-active 页面加载时默认激活菜单的index
 const $route = useRoute()
+// 刷新组件
+const flag = ref(true)
+// 监听layoutSetting仓库中refsh变化
+watch(
+  () => layoutSettingStore.refsh,
+  () => {
+    //refsh被点击了(变化了) 就要刷新
+    flag.value = false
+    nextTick(() => {
+      flag.value = true
+    })
+  },
+)
 </script>
 <template>
   <div class="layout_container">
     <!-- 左侧菜单-->
-    <div class="layout_slider">
+    <div class="layout_slider" :class="{ fold: layoutSettingStore.fold }">
       <logoComponent />
       <el-scrollbar class="scrollbar">
         <el-menu
@@ -31,17 +48,18 @@ const $route = useRoute()
           text-color="#fff"
           :unique-opened="true"
           :default-active="$route.path"
+          :collapse="layoutSettingStore.fold ? true : false"
         >
           <menuComponent :menuList="userStore.menuRoutes"></menuComponent>
         </el-menu>
       </el-scrollbar>
     </div>
     <!-- 顶部导航-->
-    <div class="layout_tabbar">
+    <div class="layout_tabbar" :class="{ tabbarFold: layoutSettingStore.fold }">
       <Tabbar />
     </div>
     <!-- 内容区域 -->
-    <div class="layout_main">
+    <div class="layout_main" :class="{ mainFold: layoutSettingStore.fold }">
       <Main></Main>
     </div>
   </div>
@@ -56,12 +74,16 @@ const $route = useRoute()
     width: $base-menu-width;
     height: 100%;
     background-color: $base-menu-bgc;
+    transition: all 0.3s;
     .scrollbar {
       width: 100%;
       height: calc(100% - $base-menu-logo-height);
       .layout_menu {
         border-right: none;
       }
+    }
+    &.fold {
+      width: $base-menu-fold-width;
     }
   }
   // 顶部导航
@@ -71,6 +93,11 @@ const $route = useRoute()
     left: $base-menu-width;
     width: calc(100% - $base-menu-width);
     height: $base-tabbar-height;
+    transition: all 0.3s;
+    &.tabbarFold {
+      width: calc(100% - $base-menu-fold-width);
+      left: $base-menu-fold-width;
+    }
   }
   // 内容区域
   .layout_main {
@@ -81,8 +108,13 @@ const $route = useRoute()
     height: calc(100% - $base-tabbar-height);
     background-color: yellowgreen;
     padding: 20px;
+    transition: all 0.3s;
     // 内容超出宽度 使用滚动条
     overflow: auto;
+    &.mainFold {
+      width: calc(100% - $base-menu-fold-width);
+      left: $base-menu-fold-width;
+    }
   }
 }
 </style>
