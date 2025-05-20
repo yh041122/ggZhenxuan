@@ -45,8 +45,15 @@ export const useUserStore = defineStore(
     //获取用户信息
     const userInfo = async () => {
       const res = await reqUserInfo()
-      userInfoData.value.username = res.data.checkUser.username
-      userInfoData.value.avatar = res.data.checkUser.avatar
+      // 获取成功200->token
+      if (res.code === 200) {
+        userInfoData.value.username = res.data.checkUser.username
+        userInfoData.value.avatar = res.data.checkUser.avatar
+        return 'ok'
+      }
+      else{
+        return Promise.reject('获取用户信息失败')
+      }
     }
     // 退出登录
     const logout = () => {
