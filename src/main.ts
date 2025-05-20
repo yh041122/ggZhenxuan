@@ -9,6 +9,8 @@ const app = createApp(App)
 app.use(pinia)
 // 注册路由
 app.use(router)
+// 引入路由鉴权文件
+import './permission'
 // svg
 import 'virtual:svg-icons-register'
 // 注册全局组件

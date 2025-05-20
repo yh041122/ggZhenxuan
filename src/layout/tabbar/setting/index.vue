@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { useLayoutSettingStore } from '@/stores/modules/layoutSetting'
 import { useUserStore } from '@/stores/modules/user'
+// 引入路由器对象
+// 引入路由对象
+import { useRoute, useRouter } from 'vue-router'
+
+const $router = useRouter()
+const $route = useRoute()
 const userStore = useUserStore()
 const layoutSettingStore = useLayoutSettingStore()
 defineOptions({
@@ -22,6 +28,14 @@ const FullScreen = () => {
   else {
     document.exitFullscreen()
   }
+}
+// 退出登录
+const logout = () => {
+  // 调用仓库的退出登录方法-清除数据
+  userStore.logout()
+  // 跳转登录页
+  console.log($route)
+  $router.push({ path: '/login', query: { redirect: $route.path } })
 }
 </script>
 <template>
@@ -49,7 +63,7 @@ const FullScreen = () => {
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item>退出登录</el-dropdown-item>
+        <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>

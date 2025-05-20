@@ -2,6 +2,8 @@
 defineOptions({
   name: 'loginIndex',
 })
+// 获取路由对象和路由器对象
+import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
 // 获取当前时间段 早上 |上午 |中午|下午 |晚上
@@ -10,8 +12,8 @@ import { getTime } from '@/utils/time.ts'
 import { useUserStore } from '@/stores/modules/user.ts'
 const userStore = useUserStore()
 // 路由
-import { useRouter } from 'vue-router'
-const router = useRouter()
+const $router = useRouter()
+const $route = useRoute()
 // element-plus
 import { ElNotification } from 'element-plus'
 // 表单数据
@@ -71,7 +73,9 @@ const login = async () => {
   try {
     await userStore.userLogin(formData.value)
     loading.value = false
-    router.push('/')
+    // 跳转上次访问的页面
+    const redirect: any = $route.query.redirect
+    $router.push({ path: redirect || '/' })
     ElNotification({
       title: `Hi,${getTime()}好~`,
       message: '欢迎回来',
