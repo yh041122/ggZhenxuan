@@ -1,11 +1,17 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { useUserStore } from '@/stores/modules/user'
+const userStore = useUserStore()
 defineOptions({
   name: 'homeIndex',
+})
+onMounted(() => {
+  userStore.userInfo()
 })
 </script>
 <template>
   <div>
-    <h1>一级路由-home</h1>
+    <img :src="userStore.userInfoData.avatar" alt="" />
   </div>
 </template>
 <style scoped lang="scss"></style>

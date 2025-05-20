@@ -13,4 +13,4 @@ export const reqLogin = (data: LoginRequestParams) =>
   // request.post<T, U>：T代表请求参数的类型，U代表响应数据的类型
   request.post<LoginRequestParams, LoginResponse>(API.LOGIN_URL, data)
 // 获取用户信息
-export const reqUserInfo = () => request.get<UserInfoResponseData>(API.USERINFO_URL)
+export const reqUserInfo = () => request.get<null, UserInfoResponseData>(API.USERINFO_URL)

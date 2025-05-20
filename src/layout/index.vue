@@ -2,7 +2,6 @@
 defineOptions({
   name: 'layoutIndex',
 })
-import { watch, ref, nextTick } from 'vue'
 // layoutSetting仓库
 import { useLayoutSettingStore } from '@/stores/modules/layoutSetting'
 const layoutSettingStore = useLayoutSettingStore()
@@ -22,19 +21,6 @@ const userStore = useUserStore()
 // 默认激活 给menu添加 :default-active="$route.path" 在哪个二级路由刷新，左侧菜单栏对应保持展开
 // default-active 页面加载时默认激活菜单的index
 const $route = useRoute()
-// 刷新组件
-const flag = ref(true)
-// 监听layoutSetting仓库中refsh变化
-watch(
-  () => layoutSettingStore.refsh,
-  () => {
-    //refsh被点击了(变化了) 就要刷新
-    flag.value = false
-    nextTick(() => {
-      flag.value = true
-    })
-  },
-)
 </script>
 <template>
   <div class="layout_container">

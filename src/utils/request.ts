@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import { useUserStore } from '@/stores/modules/user'
+
 // 使用axios对象的create方法创造axios实例(其他的配置：基础路径、超时的时间)
 const request = axios.create({
   // 基础路径
@@ -9,9 +11,14 @@ const request = axios.create({
 })
 // 请求拦截器
 request.interceptors.request.use((config) => {
+  const userStore = useUserStore()
   // 返回配置对象 config,headers属性请求头
   console.log(config)
-
+  // 给请求头添加token
+  const token = userStore.token
+  if (token) {
+    config.headers.token = token
+  }
   return config
 })
 // 响应拦截器

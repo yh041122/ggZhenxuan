@@ -1,8 +1,7 @@
 // 用户小仓库
 import { defineStore } from 'pinia'
 import { ref } from 'vue' //数据要有响应式特性
-import { reqLogin } from '@/api/user'
-// 引入数据类型
+import { reqLogin, reqUserInfo } from '@/api/user'
 // 登录参数
 import type { LoginRequestParams, LoginResponse } from '@/api/user/type.ts'
 // 获取token
@@ -14,6 +13,12 @@ export const useUserStore = defineStore('User', () => {
   const menuRoutes = ref(routes)
   // token
   const token = ref(GET_TOKEN())
+  // 用户信息
+
+  const userInfoData = ref({
+    username: '',
+    avatar: '',
+  })
   // 用户登录的方法
   const userLogin = async (data: LoginRequestParams) => {
     const res: LoginResponse = await reqLogin(data)
@@ -34,12 +39,20 @@ export const useUserStore = defineStore('User', () => {
       return Promise.reject(new Error(res.data.message!))
     }
   }
+  //获取用户信息
+  const userInfo = async () => {
+    const res = await reqUserInfo()
+    userInfoData.value.username = res.data.checkUser.username
+    userInfoData.value.avatar = res.data.checkUser.avatar
+  }
   return {
     // state
     menuRoutes,
     token,
+    userInfoData,
     // action
     userLogin,
+    userInfo,
     // getters
   }
 })

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useLayoutSettingStore } from '@/stores/modules/layoutSetting'
+import { useUserStore } from '@/stores/modules/user'
+const userStore = useUserStore()
 const layoutSettingStore = useLayoutSettingStore()
 defineOptions({
   name: 'settingIndex',
@@ -10,6 +12,7 @@ const refshFn = () => {
 }
 // 全屏按钮
 const FullScreen = () => {
+  // 如果当前页面全屏：true ，否则false
   const full = document.fullscreenElement
   // 切换为全屏
   if (!full) {
@@ -25,10 +28,18 @@ const FullScreen = () => {
   <el-button size="small" icon="Refresh" circle @click="refshFn"></el-button>
   <el-button size="small" icon="FullScreen" circle @click="FullScreen"></el-button>
   <el-button size="small" icon="Setting" circle></el-button>
-  <div
+  <img
+    :src="userStore.userInfoData.avatar"
     class="atavar"
-    style="width: 20px; height: 20px; background-color: red; border-radius: 50%; margin-left: 10px"
-  ></div>
+    style="
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border-radius: 50%;
+      margin-left: 10px;
+      margin-right: 10px;
+    "
+  />
   <el-dropdown>
     <span class="el-dropdown-link">
       admin
