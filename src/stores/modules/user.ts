@@ -1,9 +1,8 @@
 // 用户小仓库
 import { defineStore } from 'pinia'
 import { ref } from 'vue' //数据要有响应式特性
-import { reqLogin, reqUserInfo } from '@/api/user'
-// 登录参数
-import type { LoginRequestParams, LoginResponse } from '@/api/user/type.ts'
+import { reqLogin, reqUserInfo ,reqLogout} from '@/api/user'
+
 // 获取token
 import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from '@/utils/token'
 // 路由常量
@@ -23,45 +22,51 @@ export const useUserStore = defineStore(
       avatar: '',
     })
     // 用户登录的方法
-    const userLogin = async (data: LoginRequestParams) => {
-      const res: LoginResponse = await reqLogin(data)
-      console.log(res)
+    const userLogin = async (data:any) => {
+      const res:any = await reqLogin(data)
       // 登录成功200->token
       if (res.code === 200) {
         // 存储到user仓库
-        token.value = res.data.token!
-        console.log(token)
+        token.value = res.data
         // 本地存储持久化
         SET_TOKEN(token.value)
         return 'ok'
       }
       // 登录失败201->错误信息
       else {
-        console.log(res)
-
-        return Promise.reject(new Error(res.data.message!))
+        return Promise.reject(new Error(res.data))
       }
     }
     //获取用户信息
     const userInfo = async () => {
       const res = await reqUserInfo()
+      console.log(res);
+
       // 获取成功200->token
       if (res.code === 200) {
-        userInfoData.value.username = res.data.checkUser.username
-        userInfoData.value.avatar = res.data.checkUser.avatar
+        userInfoData.value.username = res.data.name
+        userInfoData.value.avatar = res.data.avatar
         return 'ok'
-      }
-      else{
-        return Promise.reject('获取用户信息失败')
+      } else {
+        return Promise.reject(new Error(res.message))
       }
     }
     // 退出登录
-    const logout = () => {
-      // 清除token，userInfoData
-      token.value = ''
-      userInfoData.value.username = ''
-      userInfoData.value.avatar = ''
-      REMOVE_TOKEN()
+    const logout = async () => {
+      const res = await reqLogout()
+      // 登录成功
+      if(res.code === 200){
+        // 清除token，userInfoData
+          token.value = ''
+          userInfoData.value.username = ''
+          userInfoData.value.avatar = ''
+          REMOVE_TOKEN()
+          return 'ok'
+      }
+      else{
+        return Promise.reject(new Error(res.message))
+      }
+
     }
     return {
       // state

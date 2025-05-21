@@ -5,9 +5,9 @@ import nprogress from 'nprogress'
 // 引入nprogress样式
 import 'nprogress/nprogress.css'
 // 关闭 nprogress 进度条右侧的小圆圈
-nprogress.configure({ showSpinner: false });
+nprogress.configure({ showSpinner: false })
 //
-import  setting  from './setting';
+import setting from './setting'
 // 在组件外部使用小仓库数据 必须先引入大仓库
 import pinia from './stores'
 import { useUserStore } from './stores/modules/user'
@@ -22,36 +22,36 @@ router.beforeEach(async (to: any, from: any, next: any) => {
   const token = userStore.token
   // 判断token是否存在
   if (token) {
-    if(to.path==='/login'){
-      console.log(from.path);
-      next({path:from.path})//为什么跳转到/home
-    }else{
+    if (to.path === '/login') {
+      next({ path: from.path }) //为什么跳转到/home
+    } else {
       //访问其他页面
       //如果已经获取到了用户信息 - 放行
-      if(username){
+      if (username) {
         next()
       }
       //如果没有获取到用户信息 - 在守卫发请求获取用户信息
-      else{
-        try{
+      else {
+        try {
           //发请求获取用户信息
           await userStore.userInfo()
           // 放行
           next()
-        }catch(error){
+        } catch (error) {
           //token过期 退出登录
-          userStore.logout()
+          //等待异步代码执行完毕 再放行
+          await userStore.logout()
           //跳转到 login 并携带to的地址
-          next({path:'/login',query:{redirect:to.path}})
+          next({ path: '/login', query: { redirect: to.path } })
         }
       }
     }
-  } else{
-    if(to.path==='/login'){
+  } else {
+    if (to.path === '/login') {
       next()
-    }else{
+    } else {
       //跳转login 登录成功后 跳到刚才想去的页面
-      next({path:'/login',query:{redirect:to.path}})
+      next({ path: '/login', query: { redirect: to.path } })
     }
   }
 })

@@ -2,6 +2,8 @@
 defineOptions({
   name: 'homeIndex',
 })
+import { useUserStore } from '@/stores/modules/user'
+const userStore = useUserStore()
 </script>
 <template>
   <div>

@@ -1,6 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 // element-plus按需引入
@@ -15,7 +15,9 @@ import { viteMockServe } from 'vite-plugin-mock'
 // https://vite.dev/config/
 // mode：当前模式（如 development 或 production）。
 // command：当前命令（如 serve 或 build）
-export default defineConfig(({ command }) => {
+export default defineConfig(({ command, mode }) => {
+  // 获取各种环境下的对应变量
+  const env = loadEnv(mode, process.cwd())
   return {
     plugins: [
       vue(),
@@ -50,6 +52,19 @@ export default defineConfig(({ command }) => {
       preprocessorOptions: {
         scss: {
           additionalData: `@import "@/styles/variable.scss";`,
+        },
+      },
+    },
+    //代理跨域
+    server: {
+      proxy: {
+        [env.VITE_APP_BASE_API]: {
+          //获取数据的服务器地址
+          target: env.VITE_SERVE,
+          //需要代理跨域
+          changeOrigin: true,
+          //路径重写  把 /api 替换成 ''
+          rewrite: (path) => path.replace(/^\/api/, ''),
         },
       },
     },

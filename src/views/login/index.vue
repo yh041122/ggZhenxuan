@@ -72,6 +72,7 @@ const login = async () => {
   // 登录逻辑
   try {
     await userStore.userLogin(formData.value)
+    await userStore.userInfo()
     loading.value = false
     // 跳转上次访问的页面
     const redirect: any = $route.query.redirect
@@ -82,7 +83,7 @@ const login = async () => {
       type: 'success',
     })
   } catch (error) {
-    // 登录失败 加载效果小时
+    // 登录失败 加载效果消失
     loading.value = false
     ElNotification({
       message: (error as Error).message,
