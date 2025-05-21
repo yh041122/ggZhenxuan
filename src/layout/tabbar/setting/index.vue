@@ -30,9 +30,9 @@ const FullScreen = () => {
   }
 }
 // 退出登录
-const logout = () => {
+const logout = async () => {
   // 调用仓库的退出登录方法-清除数据
-  userStore.logout()
+  await userStore.logout()
   // 跳转登录页
   console.log($route)
   $router.push({ path: '/login', query: { redirect: $route.path } })

@@ -1,8 +1,10 @@
 // 用户小仓库
 import { defineStore } from 'pinia'
 import { ref } from 'vue' //数据要有响应式特性
-import { reqLogin, reqUserInfo ,reqLogout} from '@/api/user'
-
+// 引入接口
+import { reqLogin, reqUserInfo, reqLogout } from '@/api/user'
+// 引入接口数据类型
+import type { LoginFormData, LoginResponseData, UserInfoResponseData } from '@/api/user/type'
 // 获取token
 import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from '@/utils/token'
 // 路由常量
@@ -22,8 +24,8 @@ export const useUserStore = defineStore(
       avatar: '',
     })
     // 用户登录的方法
-    const userLogin = async (data:any) => {
-      const res:any = await reqLogin(data)
+    const userLogin = async (data: LoginFormData) => {
+      const res: LoginResponseData = await reqLogin(data)
       // 登录成功200->token
       if (res.code === 200) {
         // 存储到user仓库
@@ -39,8 +41,8 @@ export const useUserStore = defineStore(
     }
     //获取用户信息
     const userInfo = async () => {
-      const res = await reqUserInfo()
-      console.log(res);
+      const res: UserInfoResponseData = await reqUserInfo()
+      console.log(res)
 
       // 获取成功200->token
       if (res.code === 200) {
@@ -53,20 +55,18 @@ export const useUserStore = defineStore(
     }
     // 退出登录
     const logout = async () => {
-      const res = await reqLogout()
+      const res: any = await reqLogout()
       // 登录成功
-      if(res.code === 200){
+      if (res.code === 200) {
         // 清除token，userInfoData
-          token.value = ''
-          userInfoData.value.username = ''
-          userInfoData.value.avatar = ''
-          REMOVE_TOKEN()
-          return 'ok'
-      }
-      else{
+        token.value = ''
+        userInfoData.value.username = ''
+        userInfoData.value.avatar = ''
+        REMOVE_TOKEN()
+        return 'ok'
+      } else {
         return Promise.reject(new Error(res.message))
       }
-
     }
     return {
       // state
