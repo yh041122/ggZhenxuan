@@ -92,7 +92,6 @@ const $route = useRoute()
     left: $base-menu-width;
     width: calc(100% - $base-menu-width);
     height: calc(100% - $base-tabbar-height);
-    background-color: yellowgreen;
     padding: 20px;
     transition: all 0.3s;
     // 内容超出宽度 使用滚动条
