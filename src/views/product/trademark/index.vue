@@ -24,7 +24,9 @@ const total = ref<number>(0)
 
 const hasTrademarkArr = ref<hasTrademarkResponseDataRecordsItem[]>([])
 //获取已有品牌的方法
-const getHasTrademark = async () => {
+//没有传pager 默认是1
+const getHasTrademark = async (pager = 1) => {
+  pageNo.value = pager
   const res: hasTrademarkResponse = await reqHasTrademark(pageNo.value, limit.value)
   // 请求成功
   if (res.code === 200) {
@@ -34,6 +36,10 @@ const getHasTrademark = async () => {
     hasTrademarkArr.value = res.data.records
     console.log(res)
   }
+}
+// limit页条数变化
+const handelSizeChange = () => {
+  getHasTrademark()
 }
 // 组件挂载完毕
 onMounted(() => {
@@ -90,6 +96,9 @@ onMounted(() => {
         :background:页码是否有背景颜色
         layout:自定义组件的位置，->表示顶到最右侧
         :total:总条数
+        API
+        @current-change="getHasTrademark(pageNo)"会把当前页作为参数
+        @size-change="handleSizeChange(limit)"会把当前页条数作为参数
      -->
     <el-pagination
       v-model:current-page="pageNo"
@@ -100,8 +109,8 @@ onMounted(() => {
       :background="true"
       layout=" prev, pager, next, jumper,->,total, sizes,"
       :total="total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
+      @current-change="getHasTrademark"
+      @size-change="handelSizeChange"
     />
   </el-card>
 </template>
