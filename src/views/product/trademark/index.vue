@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { reqHasTrademark } from '@/api/product/trademark'
+// 引入已有品牌接口返回数据类型
+import type {
+  hasTrademarkResponseDataRecordsItem,
+  hasTrademarkResponse,
+} from '@/api/product/trademark/type.ts'
 defineOptions({
   name: 'trademarkIndex',
 })
@@ -17,10 +22,10 @@ const disabled = ref<boolean>(false)
 const total = ref<number>(0)
 // 已有品牌数组
 
-const hasTrademarkArr = ref<any>([])
+const hasTrademarkArr = ref<hasTrademarkResponseDataRecordsItem[]>([])
 //获取已有品牌的方法
 const getHasTrademark = async () => {
-  const res = await reqHasTrademark(pageNo.value, limit.value)
+  const res: hasTrademarkResponse = await reqHasTrademark(pageNo.value, limit.value)
   // 请求成功
   if (res.code === 200) {
     // 修改数据总条数
