@@ -28,6 +28,7 @@ export default defineConfig(({ command, mode }) => {
         mockPath: 'mock',
         localEnabled: command === 'serve',
       }),
+      // element-plus按需引入
       AutoImport({
         resolvers: [ElementPlusResolver()],
       }),

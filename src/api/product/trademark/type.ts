@@ -1,14 +1,14 @@
 // 已有品牌接口返回数据类型
 //data里面的records【数组】中的item数据类型
-export interface hasTrademarkResponseDataRecordsItem {
-  createTime: string
+export interface TradeMark {
+  // createTime: string
   id?: number //已有的品牌有id【数据库id++给他的】 新增的品牌没有id
   logoUrl: string
   tmName: string
-  updateTime: string
+  // updateTime: string
 }
 // data数据类型
-interface hasTrademarkResponseData {
+export interface hasTrademarkResponseData extends hasTrademarkResponse {
   countId: number
   current: number
   hitCount: boolean
@@ -16,7 +16,7 @@ interface hasTrademarkResponseData {
   optimizeCountSql: boolean
   orders: []
   pages: number
-  records: hasTrademarkResponseDataRecordsItem[]
+  records: TradeMark[]
   searchCount: boolean
   size: number
   total: number

@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { reqHasTrademark } from '@/api/product/trademark'
+import { ElMessage, type UploadProps } from 'element-plus'
+import { ref, onMounted, reactive } from 'vue'
+import { reqHasTrademark, reqAddOrUpdateTrademark } from '@/api/product/trademark'
 // 引入已有品牌接口返回数据类型
-import type {
-  hasTrademarkResponseDataRecordsItem,
-  hasTrademarkResponse,
-} from '@/api/product/trademark/type.ts'
+import type { TradeMark, hasTrademarkResponse } from '@/api/product/trademark/type.ts'
+import { rewriteDefault } from 'vue/compiler-sfc'
 defineOptions({
   name: 'trademarkIndex',
 })
@@ -21,7 +20,12 @@ const disabled = ref<boolean>(false)
 // 当前数据总条数
 const total = ref<number>(0)
 // 已有品牌数组
-const hasTrademarkArr = ref<hasTrademarkResponseDataRecordsItem[]>([])
+const hasTrademarkArr = ref<TradeMark[]>([])
+// 添加品牌表单数据
+const tradmarkParams = reactive<TradeMark>({
+  tmName: '',
+  logoUrl: '',
+})
 //获取已有品牌的方法
 //没有传pager 默认是1
 const getHasTrademark = async (pager = 1) => {
@@ -45,30 +49,118 @@ const dialogVisible = ref<boolean>(false)
 // 添加品牌
 const addTradeMark = () => {
   dialogVisible.value = true
+  // 清空表单数据 在此设置 保证清空任务只用设置一次
+  clearFormData()
 }
 // 编辑品牌
 const editTradeMark = () => {
   dialogVisible.value = true
 }
+// 清空表单数据
+const clearFormData = () => {
+  tradmarkParams.tmName = ''
+  tradmarkParams.logoUrl = ''
+}
 // 取消操作
 const cancel = () => {
   dialogVisible.value = false
+  // 清除数据
+  // clearFormData()
 }
 //确定操作
-const confirm = () => {
-  dialogVisible.value = false
+const confirm = async () => {
+  const res = await reqAddOrUpdateTrademark(tradmarkParams)
+  if (tradmarkParams.tmName === '') {
+    ElMessage({
+      type: 'error',
+      message: '请填写品牌名称',
+    })
+    return
+  } else {
+    if (tradmarkParams.logoUrl === '') {
+      ElMessage({
+        type: 'error',
+        message: '请上传品牌LOGO',
+      })
+      return
+    }
+  }
+
+  console.log(res)
+  // 上传成功
+  if (res.code === 200) {
+    ElMessage({
+      type: 'success',
+      message: '添加品牌成功',
+    })
+    // 添加成功关闭对话框
+    dialogVisible.value = false
+    // 重新获取已有品牌列表
+    getHasTrademark()
+  } else {
+    ElMessage({
+      type: 'error',
+      message: '添加失败',
+    })
+    dialogVisible.value = false
+  }
+  // 清空表单数据
+  // clearFormData()
+}
+// 文件上传之前before-upload的回调beforeAvatarUpload
+// 如果返回false或者Promise的reject则停止上传
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  // rawFile.type是文件的类型
+  // rawFile.size是文件的大小
+  //如果上传的文件类型为png|jpeg|gif则允许上传
+  if (
+    rawFile.type === 'image/png' ||
+    rawFile.type === 'image/jpeg' ||
+    rawFile.type === 'image/gif'
+  ) {
+    //文件大小不能超过4M
+    //rawFile.type单位是字节 1024字节=1KB 1024KB=1M 所以要除以两个1024
+    if (rawFile.size / 1024 / 1024 <= 4) {
+      console.log('成功')
+      return true
+    } else {
+      ElMessage({
+        type: 'error',
+        message: '文件大小不能超过4M',
+      })
+      return false
+    }
+  } else {
+    ElMessage({
+      type: 'error',
+      message: '文件类型只能是png|jpeg|gif',
+    })
+    return false
+  }
+}
+// 文件上传成功后on-success的回调handleAvatarSuccess
+const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
+  tradmarkParams.logoUrl = response.data
 }
 // 组件挂载完毕
 onMounted(() => {
   // 发一次请求，第一页，一页三条数据
   getHasTrademark()
+  // 清空表单数据
+  // clearFormData()
 })
 </script>
 <template>
   <div>
     <el-card>
       <!-- 添加品牌按钮 -->
-      <el-button type="primary" icon="Plus" size="default" @click="addTradeMark">
+      <el-button
+        type="primary"
+        icon="Plus"
+        size="default"
+        @click="addTradeMark"
+        style="margin-bottom: 10px"
+      >
         添加品牌
       </el-button>
       <!-- 品牌展示表格 -->
@@ -137,17 +229,23 @@ onMounted(() => {
     <el-dialog title="添加品牌" v-model="dialogVisible">
       <el-form style="width: 80%" label-width="auto" label-position="left">
         <el-form-item label="品牌名称">
-          <el-input placeholder="请输入品牌名称"></el-input>
+          <el-input placeholder="请输入品牌名称" v-model="tradmarkParams.tmName"></el-input>
         </el-form-item>
         <el-form-item label="品牌LOGO">
+          <!--
+            action：文件上传的地址
+            ** 路径前要添加/api 因为在vite的额外配置中已经配置了代理
+            before-upload:文件上传之前触发的钩子，回调函数可以约束文件的类型和大小
+            on-success：文件上传成功后触发的钩子
+          -->
           <el-upload
             class="avatar-uploader"
-            action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+            action="/api/admin/product/fileUpload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <img v-if="tradmarkParams.logoUrl" :src="tradmarkParams.logoUrl" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
         </el-form-item>
