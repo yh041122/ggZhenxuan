@@ -5,3 +5,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 pnpm run format
+# 提交到git仓库时，先执行eslint 【格式化】css/vue/scss文件，再提交

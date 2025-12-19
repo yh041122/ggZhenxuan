@@ -13,7 +13,6 @@ const request = axios.create({
 request.interceptors.request.use((config) => {
   const userStore = useUserStore()
   // 返回配置对象 config,headers属性请求头
-  console.log(config)
   // 给请求头添加token
   const token = userStore.token
   if (token) {
@@ -48,7 +47,9 @@ request.interceptors.response.use(
         message = '服务器出现问题'
         break
       default:
-        message = '网络异常，请稍后再试'
+        console.log(error)
+
+        message = error.message
         break
     }
     ElMessage({

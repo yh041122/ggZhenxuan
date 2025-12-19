@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
-pnpm commitlint
+pnpm run commitlint
+# 提交到git仓库时，先执行commitlint校验【commit 提交的信息是否符合类型规范】再提交

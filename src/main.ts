@@ -19,7 +19,7 @@ import 'virtual:svg-icons-register'
 import globalComponent from '@/components/index.ts'
 // 调试：检查 globalComponent 的结构
 console.log('Global component structure:', Object.keys(globalComponent))
-
+// 安装自定义插件
 app.use(globalComponent)
 // 国际化element-plus
 import ElementPlus from 'element-plus'

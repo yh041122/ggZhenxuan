@@ -94,7 +94,7 @@ const $route = useRoute()
     height: calc(100% - $base-tabbar-height);
     padding: 20px;
     transition: all 0.3s;
-    // 内容超出宽度 使用滚动条
+    // 内容超出宽度 使用滚动条n
     overflow: auto;
     &.mainFold {
       width: calc(100% - $base-menu-fold-width);

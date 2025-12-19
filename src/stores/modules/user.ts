@@ -42,7 +42,6 @@ export const useUserStore = defineStore(
     //获取用户信息
     const userInfo = async () => {
       const res: UserInfoResponseData = await reqUserInfo()
-      console.log(res)
 
       // 获取成功200->token
       if (res.code === 200) {

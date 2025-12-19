@@ -1,6 +1,7 @@
-@import './reset.scss';
+@use './reset.scss' as *;
+
 // 引入清除默认样式
-//
+// 滚动条样式
 ::-webkit-scrollbar {
   width: 10px;
 }
